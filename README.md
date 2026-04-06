@@ -1,8 +1,10 @@
 # ASDGC-Dataset
 
-This repository contains the benchmark datasets used in the experiments of **Adaptive-Scale Dynamic Graph Learning with Cross-Scale Global Fusion (ASDGC)** for non-stationary multivariate time series forecasting.
+This repository provides the benchmark datasets used in the experiments of **Adaptive-Scale Dynamic Graph Learning with Cross-Scale Global Fusion (ASDGC)** for non-stationary multivariate time series forecasting.
 
-## Files in This Repository
+This repository is intended for **academic reproducibility and research convenience**. It is **not** an official distribution channel for the original datasets.
+
+## Repository Contents
 
 ```text
 ASDGC-Dataset/
@@ -18,14 +20,14 @@ ASDGC-Dataset/
 └── README.md
 ```
 
-## Important Note for `PEMS07`
+## Important Note for PEMS07
 
-Because of repository file-size constraints, **PEMS07 is split into two archive parts**:
+Due to repository file-size constraints, **PEMS07** is split into two archive parts:
 
 - `PEMS07.zip.001`
 - `PEMS07.zip.002`
 
-Please merge the two parts before extraction.
+Merge the two parts before extraction.
 
 ### Linux / macOS
 
@@ -40,40 +42,25 @@ unzip PEMS07.zip
 copy /b PEMS07.zip.001 + PEMS07.zip.002 PEMS07.zip
 ```
 
-Then extract `PEMS07.zip` with your preferred decompression tool.
-
 ## Data Format
 
-After extraction, each dataset is provided in **plain-text `.txt` format** for direct use in forecasting experiments.
+After extraction, each dataset is stored in **plain-text `.txt` format**.
 
-### Format convention
+- Each file is a numeric matrix.
+- Rows correspond to time steps.
+- Columns correspond to variables, sensors, or series.
+- The data can be loaded directly in Python or similar scientific-computing environments.
 
-- Each file is a **numeric matrix**.
-- **Rows** correspond to time steps.
-- **Columns** correspond to variables / sensors / series.
-- The files are intended for direct loading in Python and other scientific-computing environments.
-
-A typical loading method is:
+### Example
 
 ```python
 import numpy as np
 
 x = np.loadtxt('your_dataset.txt', delimiter=',')
-print(x.shape)   # [T, N]
-```
-
-If you prefer pandas:
-
-```python
-import pandas as pd
-
-x = pd.read_csv('your_dataset.txt', header=None)
-print(x.shape)
+print(x.shape)  # [T, N]
 ```
 
 ## Dataset Statistics
-
-The following statistics are consistent with the benchmark setting reported in the ASDGC paper.
 
 | Dataset       | Variables | Time Steps | Frequency | Domain      |
 | ------------- | --------: | ---------: | --------- | ----------- |
@@ -86,35 +73,16 @@ The following statistics are consistent with the benchmark setting reported in t
 | PEMS04        |       307 |     16,992 | 5 min     | Traffic     |
 | PEMS07        |       883 |     28,224 | 5 min     | Traffic     |
 
-## Brief Description of Each Dataset
+## Dataset Overview
 
-### ETTm1 / ETTm2
+- **ETTm1 / ETTm2**: Electricity Transformer Temperature datasets with 7 variables sampled every 15 minutes.
+- **Exchange-Rate**: Daily exchange rates of 8 countries.
+- **Weather**: 21 meteorological variables sampled every 10 minutes.
+- **Solar-Energy**: Solar power generation from 137 plants sampled every 10 minutes.
+- **ILI**: Weekly influenza-like illness ratios.
+- **PEMS04 / PEMS07**: Large-scale traffic benchmarks commonly used in spatio-temporal forecasting.
 
-Electricity Transformer Temperature (ETT) datasets contain seven transformer-related variables recorded at a **15-minute** resolution. They are widely used to evaluate multivariate forecasting models under strong periodicity and long-term trend variation.
-
-### Exchange-Rate
-
-This dataset contains the **daily exchange rates of eight countries** and is a standard low-frequency benchmark for financial multivariate forecasting.
-
-### Weather
-
-This dataset includes **21 meteorological variables** recorded every **10 minutes**. It is commonly used to test forecasting models under complex environmental dynamics.
-
-### Solar-Energy
-
-This dataset records **solar power generation from 137 plants** at a **10-minute** interval. It is a representative benchmark for non-stationary renewable-energy forecasting due to abrupt fluctuations and ramp events.
-
-### ILI
-
-The ILI dataset contains **weekly influenza-like illness ratios** and is commonly used for long-horizon public-health forecasting.
-
-### PEMS04 / PEMS07
-
-PEMS04 and PEMS07 are large-scale traffic benchmarks derived from the **California Transportation Agencies (CalTrans) Performance Measurement System (PeMS)**. In common benchmark preprocessing, the traffic observations are aggregated to **5-minute** intervals, making them suitable for spatio-temporal multivariate forecasting research.
-
-## Suggested Directory Layout After Extraction
-
-A convenient local organization is:
+## Suggested Directory Layout
 
 ```text
 multivariate-time-series-data/
@@ -136,30 +104,29 @@ multivariate-time-series-data/
     └── PEMS07.txt
 ```
 
-If your local extracted file names differ slightly, please adapt the path in your code accordingly.
+## Upstream and Benchmark References
 
-## References and Data Sources
+- TimeSeriesDatasets benchmark collection: `https://github.com/juyongjiang/TimeSeriesDatasets`
+- ETT dataset / Informer: `https://github.com/zhouhaoyi/ETDataset`
+- Common multivariate forecasting benchmark collection: `https://github.com/laiguokun/multivariate-time-series-data`
+- Weather dataset source: `https://www.bgc-jena.mpg.de/wetter/`
+- ILI source (CDC FluView): `https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html`
+- Traffic benchmark preprocessing reference: `https://github.com/guoshnBJTU/ASTGNN/tree/main/data`
 
-The benchmark descriptions in this repository are aligned with the ASDGC paper and standard public benchmark sources. Helpful references include:
+## Notice on Data Ownership and Use
 
-1. **TimeSeriesDatasets benchmark collection**  
-   https://github.com/juyongjiang/TimeSeriesDatasets
+- This repository is provided for **academic research and reproducibility**.
+- The original datasets remain the property of their respective providers or rights holders.
+- This repository does **not** claim ownership of third-party datasets.
+- Users are responsible for complying with the original dataset licenses, citation requirements, access conditions, and redistribution rules.
+- If any included material should not be redistributed, please contact the repository maintainer for review or removal.
 
-2. **ETT dataset / Informer**  
-   https://github.com/zhouhaoyi/ETDataset
+## Citation
 
-3. **Common multivariate forecasting benchmark collection**  
-   https://github.com/laiguokun/multivariate-time-series-data
+If you use this repository in academic work, please:
 
-4. **Weather dataset source**  
-   https://www.bgc-jena.mpg.de/wetter/
+​	Cite the **original dataset papers, websites, or upstream repositories** when required.
 
-5. **ILI source (CDC FluView)**  
-   https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html
+## Repository License Scope
 
-6. **Traffic benchmark preprocessing reference (including PEMS family)**  
-   https://github.com/guoshnBJTU/ASTGNN/tree/main/data
-
-## License and Usage
-
-Please follow the original licenses, access terms, and citation requirements of the corresponding public datasets and upstream sources when using these files.
+Unless otherwise stated, any license attached to this repository applies only to the repository author's own materials, such as the README text, scripts, and repository-specific notes. It does **not** automatically apply to third-party datasets.
