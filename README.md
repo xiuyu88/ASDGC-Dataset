@@ -106,12 +106,12 @@ multivariate-time-series-data/
 
 ## Upstream and Benchmark References
 
-- TimeSeriesDatasets benchmark collection: `https://github.com/juyongjiang/TimeSeriesDatasets`
-- ETT dataset / Informer: `https://github.com/zhouhaoyi/ETDataset`
-- Common multivariate forecasting benchmark collection: `https://github.com/laiguokun/multivariate-time-series-data`
-- Weather dataset source: `https://www.bgc-jena.mpg.de/wetter/`
-- ILI source (CDC FluView): `https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html`
-- Traffic benchmark preprocessing reference: `https://github.com/guoshnBJTU/ASTGNN/tree/main/data`
+- TimeSeriesDatasets benchmark collection:[TimeSeriesDatasets benchmark collection](https://github.com/juyongjiang/TimeSeriesDatasets)
+- ETT dataset / Informer: [ETT dataset / Informer](https://github.com/zhouhaoyi/ETDataset)
+- Common multivariate forecasting benchmark collection: [Common multivariate forecasting benchmark collection](https://github.com/laiguokun/multivariate-time-series-data)
+- Weather dataset source: [Weather dataset source](https://www.bgc-jena.mpg.de/wetter/)
+- ILI source (CDC FluView): [ILI source (CDC FluView)](https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html)
+- Traffic benchmark preprocessing reference: [Traffic benchmark preprocessing reference](https://github.com/guoshnBJTU/ASTGNN/tree/main/data)
 
 ## Notice on Data Ownership and Use
 
