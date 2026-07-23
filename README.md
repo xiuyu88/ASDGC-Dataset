@@ -1,132 +1,139 @@
 # ASDGC-Dataset
 
-This repository provides the benchmark datasets used in the experiments of **Adaptive-Scale Dynamic Graph Learning with Cross-Scale Global Fusion (ASDGC)** for non-stationary multivariate time series forecasting.
+Benchmark data companion for **Adaptive-Scale Dynamic Graph Learning with Cross-Scale Global Fusion for Non-Stationary Time Series Forecasting (ASDGC)**.
 
-This repository is intended for **academic reproducibility and research convenience**. It is **not** an official distribution channel for the original datasets.
+## Companion repositories
 
-## Repository Contents
+| Research artifact                 | GitHub repository                                            | Responsibility                                               |
+| --------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Benchmark data and source notes   | [xiuyu88/ASDGC-Dataset](https://github.com/xiuyu88/ASDGC-Dataset) | Experiment data files, dataset statistics, source information, and extraction instructions |
+| Model code and experiment scripts | [xiuyu88/ASDGC](https://github.com/xiuyu88/ASDGC)            | Model implementation, environment setup, training, evaluation, and reproduction commands |
+
+
+
+## Scope
+
+This repository provides the preprocessing-ready benchmark files used by the ASDGC experiments and documents the file names, expected directory layout, statistics, and upstream sources.
+
+It is a research-reproducibility companion to the ASDGC code repository. It is not intended to replace the official dataset providers. The datasets remain associated with their original providers, citations, access conditions, and reuse requirements. Users should consult and cite the original sources listed below.
+
+## Repository contents
 
 ```text
 ASDGC-Dataset/
 ├── ETTm1.zip
 ├── ETTm2.zip
+├── exchange_rate.zip
+├── illness.zip
+├── weather.zip
+├── solar-energy.zip
 ├── PEMS04.zip
 ├── PEMS07.zip.001
 ├── PEMS07.zip.002
-├── exchange_rate.zip
-├── illness.zip
-├── solar-energy.zip
-├── weather.zip
-└── README.md
+├── README.md
+└── DATA_SOURCES.md
 ```
 
-## Important Note for PEMS07
+## Dataset inventory
 
-Due to repository file-size constraints, **PEMS07** is split into two archive parts:
+| Dataset       | Variables | Time steps | Frequency | Domain                              |
+| ------------- | --------: | ---------: | --------: | ----------------------------------- |
+| ETTm1         |         7 |     69,680 |    15 min | Electricity transformer temperature |
+| ETTm2         |         7 |     69,680 |    15 min | Electricity transformer temperature |
+| Exchange-Rate |         8 |      7,588 |     Daily | Economy                             |
+| Weather       |        21 |     52,696 |    10 min | Meteorology                         |
+| Solar-Energy  |       137 |     52,560 |    10 min | Energy                              |
+| ILI           |         7 |        966 |    Weekly | Public health                       |
+| PEMS04        |       307 |     16,992 |     5 min | Traffic                             |
+| PEMS07        |       883 |     28,224 |     5 min | Traffic                             |
 
-- `PEMS07.zip.001`
-- `PEMS07.zip.002`
+## Data format
 
-Merge the two parts before extraction.
+After extraction, each ASDGC input is a comma-separated numeric matrix:
 
-### Linux / macOS
+- rows correspond to time steps;
+- columns correspond to variables, sensors, or series;
+- files contain numeric values only;
+- files have no header row.
+
+Example:
+
+```python
+import numpy as np
+
+x = np.loadtxt("dataset/ETTm1/ETTm1.txt", delimiter=",")
+print(x.shape)  # (time_steps, variables)
+```
+
+## Expected local layout for the code repository
+
+Copy or extract the files into the `dataset/` directory of the ASDGC code repository:
+
+```text
+ASDGC/
+└── dataset/
+    ├── ETTm1/ETTm1.txt
+    ├── ETTm2/ETTm2.txt
+    ├── exchange_rate/exchange_rate.txt
+    ├── illness/illness.txt
+    ├── weather/weather.txt
+    ├── solar-energy/solar-energy.txt
+    ├── PEMS04/PEMS04.txt
+    └── PEMS07/PEMS07.txt
+```
+
+Directory and file names are case-sensitive on Linux.
+
+## PEMS07 split archive
+
+Because the PEMS07 archive is split into two parts, merge the parts before extraction.
+
+Linux/macOS:
 
 ```bash
 cat PEMS07.zip.001 PEMS07.zip.002 > PEMS07.zip
 unzip PEMS07.zip
 ```
 
-### Windows (Command Prompt)
+Windows Command Prompt:
 
 ```bat
 copy /b PEMS07.zip.001 + PEMS07.zip.002 PEMS07.zip
 ```
 
-## Data Format
+Windows PowerShell:
 
-After extraction, each dataset is stored in **plain-text `.txt` format**.
-
-- Each file is a numeric matrix.
-- Rows correspond to time steps.
-- Columns correspond to variables, sensors, or series.
-- The data can be loaded directly in Python or similar scientific-computing environments.
-
-### Example
-
-```python
-import numpy as np
-
-x = np.loadtxt('your_dataset.txt', delimiter=',')
-print(x.shape)  # [T, N]
+```powershell
+$parts = "PEMS07.zip.001", "PEMS07.zip.002"
+$out = [System.IO.File]::Create("PEMS07.zip")
+foreach ($part in $parts) {
+    $bytes = [System.IO.File]::ReadAllBytes($part)
+    $out.Write($bytes, 0, $bytes.Length)
+}
+$out.Close()
+Expand-Archive PEMS07.zip -DestinationPath PEMS07
 ```
 
-## Dataset Statistics
+## Original and upstream sources
 
-| Dataset       | Variables | Time Steps | Frequency | Domain      |
-| ------------- | --------: | ---------: | --------- | ----------- |
-| ETTm1         |         7 |     69,680 | 15 min    | Temperature |
-| ETTm2         |         7 |     69,680 | 15 min    | Temperature |
-| Exchange-Rate |         8 |      7,588 | Daily     | Economy     |
-| Weather       |        21 |     52,696 | 10 min    | Weather     |
-| Solar-Energy  |       137 |     52,560 | 10 min    | Energy      |
-| ILI           |         7 |        966 | Weekly    | Illness     |
-| PEMS04        |       307 |     16,992 | 5 min     | Traffic     |
-| PEMS07        |       883 |     28,224 | 5 min     | Traffic     |
+Detailed source notes are provided in [`DATA_SOURCES.md`](DATA_SOURCES.md). The principal access points are:
 
-## Dataset Overview
+- ETT dataset: `https://github.com/zhouhaoyi/ETDataset`
+- Exchange-Rate and Solar-Energy benchmark files: `https://github.com/laiguokun/multivariate-time-series-data`
+- Weather data: `https://www.bgc-jena.mpg.de/wetter/`
+- ILI data: `https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html`
+- PeMS traffic data: `https://pems.dot.ca.gov/`
 
-- **ETTm1 / ETTm2**: Electricity Transformer Temperature datasets with 7 variables sampled every 15 minutes.
-- **Exchange-Rate**: Daily exchange rates of 8 countries.
-- **Weather**: 21 meteorological variables sampled every 10 minutes.
-- **Solar-Energy**: Solar power generation from 137 plants sampled every 10 minutes.
-- **ILI**: Weekly influenza-like illness ratios.
-- **PEMS04 / PEMS07**: Large-scale traffic benchmarks commonly used in spatio-temporal forecasting.
-
-## Suggested Directory Layout
-
-```text
-dataset/
-├── ETTm1/
-│   └── ETTm1.txt
-├── ETTm2/
-│   └── ETTm2.txt
-├── exchange_rate/
-│   └── exchange_rate.txt
-├── weather/
-│   └── weather.txt
-├── solar-energy/
-│   └── solar-energy.txt
-├── illness/
-│   └── illness.txt
-├── PEMS04/
-│   └── PEMS04.txt
-└── PEMS07/
-    └── PEMS07.txt
-```
-
-## Upstream and Benchmark References
-
-- TimeSeriesDatasets benchmark collection:[TimeSeriesDatasets benchmark collection](https://github.com/juyongjiang/TimeSeriesDatasets)
-- ETT dataset / Informer: [ETT dataset / Informer](https://github.com/zhouhaoyi/ETDataset)
-- Common multivariate forecasting benchmark collection: [Common multivariate forecasting benchmark collection](https://github.com/laiguokun/multivariate-time-series-data)
-- Weather dataset source: [Weather dataset source](https://www.bgc-jena.mpg.de/wetter/)
-- ILI source (CDC FluView): [ILI source (CDC FluView)](https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html)
-- Traffic benchmark preprocessing reference: [Traffic benchmark preprocessing reference](https://github.com/guoshnBJTU/ASTGNN/tree/main/data)
-
-## Notice on Data Ownership and Use
-
-- This repository is provided for **academic research and reproducibility**.
-- The original datasets remain the property of their respective providers or rights holders.
-- This repository does **not** claim ownership of third-party datasets.
-- Users are responsible for complying with the original dataset licenses, citation requirements, access conditions, and redistribution rules.
-- If any included material should not be redistributed, please contact the repository maintainer for review or removal.
+The repository records the experiment-ready files used by ASDGC. Users should cite the original dataset source or associated paper appropriate to each benchmark.
 
 ## Citation
 
-If you use this repository in academic work, please:
+When using this repository:
 
-​	Cite the **original dataset papers, websites, or upstream repositories** when required.
+1. cite the ASDGC article;
+2. cite each original dataset source required for the benchmarks used;
+3. identify the matching GitHub release tag or commit when reporting a reproduction.
 
-## Repository License Scope
+## Corrections
 
-Unless otherwise stated, any license attached to this repository applies only to the repository author's own materials, such as the README text, scripts, and repository-specific notes. It does **not** automatically apply to third-party datasets.
+Use GitHub Issues to report missing files, extraction problems, incorrect source information, or inconsistencies between this repository and the ASDGC code repository.
