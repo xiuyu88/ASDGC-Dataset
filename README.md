@@ -85,7 +85,7 @@ print(x.shape)  # [T, N]
 ## Suggested Directory Layout
 
 ```text
-multivariate-time-series-data/
+dataset/
 ├── ETTm1/
 │   └── ETTm1.txt
 ├── ETTm2/
