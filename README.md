@@ -17,8 +17,7 @@ ASDGC-Dataset/
 ├── PEMS04.zip
 ├── PEMS07.zip.001
 ├── PEMS07.zip.002
-├── README.md
-└── DATA_SOURCES.md
+└── README.md
 ```
 
 ## Dataset inventory
@@ -101,7 +100,6 @@ The principal dataset access points are:
 | ILI | [CDC FluView](https://gis.cdc.gov/grasp/fluview/fluportaldashboard.html) |
 | PEMS04 and PEMS07 | [Caltrans PeMS](https://pems.dot.ca.gov/) |
 
-Additional source notes and archive-to-file mappings are provided in [`DATA_SOURCES.md`](DATA_SOURCES.md).
 
 The datasets remain associated with their original providers, citations, access conditions, and reuse requirements. Please consult the original sources for the applicable terms and attribution requirements.
 
